@@ -4,10 +4,10 @@ use strict;
 use warnings;
 
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 use Net::LDAP;
 use Data::Dumper;
-
+use MIME::Base64;
 sub new
  {
 my $class =shift;
@@ -54,7 +54,7 @@ sub __none {  #does ...nothing;
 sub  __controlUrlOrigin { 
     my $urldc;
     my $self = shift;
-    my $urlc = $self->{param}->{'urlc'};
+    my $urlc = $self->{param}->{'url'};
    
 if ( defined ( $urlc) )
  {
@@ -225,6 +225,10 @@ sub getRedirection {
 my $self= shift;
 return ($self->{urldc});
 }
+sub getAllRedirection {
+my $self= shift;
+return ($self->{urlc},$self->{urldc});
+}
 sub user {
 my $self= shift;
 return ($self->{user});
@@ -381,6 +385,16 @@ my $stack_user= Lemonldap::Portal::Sslsso->new('standard_method' => \&my_method)
 =head2 sub infoSession ()
 
   return a reference of hash of session 
+
+=head2 getRedirection ()
+
+  return a plaintext url of redirection
+ 
+=head2 (urlc,urldc) :getAllRedirection ()
+
+  return a  list of encoded url and decoded  url of redirection
+ 
+
  
 =head1 SEE ALSO
 
